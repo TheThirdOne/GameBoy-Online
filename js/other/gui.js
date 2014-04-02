@@ -95,6 +95,23 @@ function registerGUIEvents() {
 			}
 		}
 	});
+	addEvent("click", document.getElementById("url_clicker"), function () {
+		var datauri = prompt("Please input the URL for the .gbc rom:", "");
+		if (datauri != null && datauri.length > 0) {
+			try {
+			  var xhr = new XMLHttpRequest();
+        xhr.open("GET", datauri, false);
+        xhr.overrideMimeType("text/plain; charset=x-user-defined");
+        xhr.send(null);
+
+				initPlayer();
+				start(mainCanvas, xhr.responseText);
+			}
+			catch (error) {
+				alert(error.message + " file: " + error.fileName + " line: " + error.lineNumber);
+			}
+		}
+	});
 	addEvent("click", document.getElementById("set_volume"), function () {
 		if (GameBoyEmulatorInitialized()) {
 			var volume = prompt("Set the volume here:", "1.0");
@@ -157,7 +174,7 @@ function registerGUIEvents() {
 						catch (error) {
 							alert(error.message + " file: " + error.fileName + " line: " + error.lineNumber);
 						}
-						
+
 					}
 				}
 				else {
@@ -209,7 +226,7 @@ function registerGUIEvents() {
 						catch (error) {
 							alert(error.message + " file: " + error.fileName + " line: " + error.lineNumber);
 						}
-						
+
 					}
 				}
 				else {
@@ -631,7 +648,7 @@ function mouseEnterVerify(oElement, event) {
 	return !isDescendantOf(oElement, (typeof event.target != "undefined") ? event.target : event.srcElement) && isDescendantOf(oElement, (typeof event.relatedTarget != "undefined") ? event.relatedTarget : event.fromElement);
 }
 function addEvent(sEvent, oElement, fListener) {
-	try {	
+	try {
 		oElement.addEventListener(sEvent, fListener, false);
 		cout("In addEvent() : Standard addEventListener() called to add a(n) \"" + sEvent + "\" event.", -1);
 	}
@@ -641,7 +658,7 @@ function addEvent(sEvent, oElement, fListener) {
 	}
 }
 function removeEvent(sEvent, oElement, fListener) {
-	try {	
+	try {
 		oElement.removeEventListener(sEvent, fListener, false);
 		cout("In removeEvent() : Standard removeEventListener() called to remove a(n) \"" + sEvent + "\" event.", -1);
 	}
